@@ -12,6 +12,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "SharpStructures", "src\SharpStructures\SharpStructures.xproj", "{EA228C7E-AB38-4946-965E-9DDC1F8D9187}"
 EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "SharpStructures.Tests", "test\SharpStructures.Tests\SharpStructures.Tests.xproj", "{23FCA1CB-5FB3-4AA5-B3C3-394CEB462D2C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{6E2496C4-B932-4D77-82ED-BC6AA2F7235B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -22,11 +26,16 @@ Global
 		{EA228C7E-AB38-4946-965E-9DDC1F8D9187}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EA228C7E-AB38-4946-965E-9DDC1F8D9187}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EA228C7E-AB38-4946-965E-9DDC1F8D9187}.Release|Any CPU.Build.0 = Release|Any CPU
+		{23FCA1CB-5FB3-4AA5-B3C3-394CEB462D2C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{23FCA1CB-5FB3-4AA5-B3C3-394CEB462D2C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{23FCA1CB-5FB3-4AA5-B3C3-394CEB462D2C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{23FCA1CB-5FB3-4AA5-B3C3-394CEB462D2C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{EA228C7E-AB38-4946-965E-9DDC1F8D9187} = {A2F13F35-DEC2-423D-BAD4-567E5DD4E300}
+		{23FCA1CB-5FB3-4AA5-B3C3-394CEB462D2C} = {6E2496C4-B932-4D77-82ED-BC6AA2F7235B}
 	EndGlobalSection
 EndGlobal
