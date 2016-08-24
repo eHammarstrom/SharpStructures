@@ -18,7 +18,7 @@ namespace Tests
         }
 
         void IDisposable.Dispose() {
-            list.Dispose();
+            list.Clear();
         }
 
         [Fact]
@@ -30,7 +30,10 @@ namespace Tests
 
         [Fact]
         public void ShouldIterate() {
-            int i = list.Count(); // iterates because our LinkedList does not implement ICollection
+            int i = 0;
+            foreach (string s in list) {
+                i++;
+            }
             Assert.Equal(4, i);
         }
 
@@ -43,6 +46,19 @@ namespace Tests
         [Fact]
         public void ShouldContainElement() {
             Assert.Equal(true, list.Contains("Goodbye"));
+        }
+
+        [Fact]
+        public void ShouldCopyToArray() {
+            string[] asd = new string[100];
+            asd[0] = "asd";
+            asd[1] = "das";
+            asd[2] = "sda";
+            asd[3] = "sad";
+
+            list.CopyTo(asd, 0);
+
+            Assert.Equal(true, asd.Contains("Goodbye"));
         }
     }
 }

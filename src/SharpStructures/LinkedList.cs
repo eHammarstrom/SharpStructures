@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 namespace SharpStructures {
-    public class LinkedList<T> : IEnumerable<T>, IDisposable where T : class {
+    public class LinkedList<T> : IEnumerable<T>, ICollection<T> where T : class {
         int count;
         SingleLinkedListNode<T> root;
         SingleLinkedListNode<T> last;
@@ -23,6 +23,12 @@ namespace SharpStructures {
             get { return count; }
         }
 
+        public bool IsReadOnly {
+            get {
+                throw new NotImplementedException();
+            }
+        }
+
         /// <summary>
         /// Removes object from list
         /// </summary>
@@ -35,6 +41,7 @@ namespace SharpStructures {
             while (current != null) {
                 if (current.data.Equals(obj)) {
                     last.next = current.next;
+                    count--;
                     return true;
                 }
 
@@ -59,13 +66,6 @@ namespace SharpStructures {
             }
 
             count++;
-        }
-
-        /// <summary>
-        /// Clears list
-        /// </summary>
-        public void Dispose() {
-            root = null;
         }
 
         /// <summary>
@@ -101,6 +101,25 @@ namespace SharpStructures {
             }
 
             return str;
+        }
+
+        public void Clear() {
+            root = null;
+        }
+
+        public bool Contains(T item) {
+            foreach (T t in this) {
+                if (t.Equals(item)) return true;
+            }
+            return false;
+        }
+
+        public void CopyTo(T[] array, int arrayIndex) {
+            int i = 0;
+            foreach (T item in this) {
+                if (i >= arrayIndex) array[i] = item;
+                i++;
+            }
         }
     }
 
