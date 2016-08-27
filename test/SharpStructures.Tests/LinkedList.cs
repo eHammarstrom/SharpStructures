@@ -17,9 +17,7 @@ namespace Tests
             list.Add("World");
         }
 
-        void IDisposable.Dispose() {
-            list.Clear();
-        }
+        void IDisposable.Dispose() => list.Clear();
 
         [Fact]
         public void ShouldGiveSize() 

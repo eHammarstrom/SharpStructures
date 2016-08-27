@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+using SharpStructures.Nodes;
+
 namespace SharpStructures {
     public class LinkedList<T> : IEnumerable<T>, ICollection<T> where T : class {
         int count;
@@ -120,15 +122,6 @@ namespace SharpStructures {
                 if (i >= arrayIndex) array[i] = item;
                 i++;
             }
-        }
-    }
-
-    public class SingleLinkedListNode<E> where E : class {
-        public SingleLinkedListNode<E> next;
-        public E data;
-
-        public SingleLinkedListNode(E data) {
-            this.data = data;
         }
     }
 }
