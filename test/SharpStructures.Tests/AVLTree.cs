@@ -43,8 +43,13 @@ namespace Tests
         public void ShouldDeleteElements() {
             Assert.Equal(7, tree.Delete(7));
             Assert.Equal(2, tree.Delete(2));
-            Console.WriteLine("After remove: ");
+            Console.WriteLine("After removing 7 and 2: ");
             tree.Print();
+        }
+
+        [Fact]
+        public void ShouldCountHeightCorrectly() {
+            Assert.Equal(5, tree.Height());
         }
     }
 }

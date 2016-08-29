@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 using SharpStructures.Interfaces;
 using SharpStructures.Nodes;
@@ -11,24 +7,17 @@ using SharpStructures.Helpers;
 namespace SharpStructures {
     public class AVLTree<E> : ISearchTree<E> where E : IComparable {
         private TreeNode<E> _root;
-        private int _leftHeight;
-        private int _rightHeight;
-        private bool _increase;
+        private bool _added;
 
         public AVLTree() {
-            _leftHeight = 0;
-            _rightHeight = 0;
             _root = null;
-            _increase = false;
         }
 
         public bool Add(E element) {
-            _increase = false;
+            _added = false;
 
             if (_root == null) {
                 _root = new TreeNode<E>(element);
-                _leftHeight++;
-                _rightHeight++;
                 return true;
             }
             else if (element.CompareTo(_root.data) == 0) {
@@ -36,87 +25,76 @@ namespace SharpStructures {
             }
             else if (element.CompareTo(_root.data) < 0) {
                 _root.Left = Add(_root.Left, element);
-
-                if (_increase) _leftHeight++;
-
-                return _increase;
+                return _added;
             }
-            else if (element.CompareTo(_root.data) > 0) {
+            else {
                 _root.Right = Add(_root.Right, element);
-
-                if (_increase) _rightHeight++;
-
-                return _increase;
+                return _added;
             }
-            throw new TreeException("AVLTree.Add(E): undefined case");
         }
 
-        private TreeNode<E> Add(TreeNode<E> crawlNode, E element) {
-            if (crawlNode == null) {
-                crawlNode = new TreeNode<E>(element);
-                _increase = true;
-                return crawlNode;
+        private TreeNode<E> Add(TreeNode<E> node, E element) {
+            if (node == null) {
+                node = new TreeNode<E>(element);
+                _added = true;
+                return node;
             }
-            else if (element.CompareTo(crawlNode.data) == 0) {
-                return crawlNode;
+            else if (element.CompareTo(node.data) < 0) {
+                node.Left = Add(node.Left, element);
             }
-            else if (element.CompareTo(crawlNode.data) < 0) {
-                crawlNode.Left = Add(crawlNode.Left, element);
+            else if (element.CompareTo(node.data) > 0) {
+                node.Right = Add(node.Right, element);
             }
-            else if (element.CompareTo(crawlNode.data) > 0) {
-                crawlNode.Right = Add(crawlNode.Right, element);
-            }
-            return crawlNode;
+
+            return node;
         }
 
         public bool Contains(E element) {
             return Contains(_root, element);
         }
 
-        private bool Contains(TreeNode<E> crawlNode, E element) {
-            if (crawlNode == null)
+        private bool Contains(TreeNode<E> node, E element) {
+            if (node == null)
                 return false;
-            else if (element.CompareTo(crawlNode.data) == 0)
+            else if (element.CompareTo(node.data) == 0)
                 return true;
-            else if (element.CompareTo(crawlNode.data) < 0)
-                return Contains(crawlNode.Left, element);
-            else if (element.CompareTo(crawlNode.data) > 0)
-                return Contains(crawlNode.Right, element);
-
-            throw new TreeException("AVLTree.Contains(TreeNode, E): undefined case");
+            else if (element.CompareTo(node.data) < 0)
+                return Contains(node.Left, element);
+            else
+                return Contains(node.Right, element);
         }
 
         public E Delete(E element) {
             return Delete(null, _root, element);
         }
 
-        private E Delete(TreeNode<E> parent, TreeNode<E> crawlNode, E element) {
-            if (crawlNode == null)
+        private E Delete(TreeNode<E> parent, TreeNode<E> node, E element) {
+            if (node == null)
                 return default(E);
-            else if (element.CompareTo(crawlNode.data) < 0)
-                return Delete(crawlNode, crawlNode.Left, element);
-            else if (element.CompareTo(crawlNode.data) > 0)
-                return Delete(crawlNode, crawlNode.Right, element);
+            else if (element.CompareTo(node.data) < 0)
+                return Delete(node, node.Left, element);
+            else if (element.CompareTo(node.data) > 0)
+                return Delete(node, node.Right, element);
             else { // We found it
-                E deleteReturn = crawlNode.data;
-                bool isLeft = (parent.Left.data.Equals(crawlNode.data)) ? true : false;
+                E deleteReturn = node.data;
+                bool isLeft = (parent.Left.data.Equals(node.data)) ? true : false;
 
-                if (crawlNode.Children.Count == 0) {
+                if (node.Children.Count == 0) {
                     if (isLeft) parent.Left = null;
                     else parent.Right = null;
                 }
-                else if (crawlNode.Children.Count == 1) {
-                    if (isLeft) parent.Left = crawlNode.Children[0];
-                    else parent.Right = crawlNode.Children[0];
+                else if (node.Children.Count == 1) {
+                    if (isLeft) parent.Left = node.Children[0];
+                    else parent.Right = node.Children[0];
                 }
                 else {
-                    if (crawlNode.Left.Right == null) {
-                        crawlNode.Left.Right = crawlNode.Right;
-                        if (isLeft) parent.Left = crawlNode.Left;
-                        else parent.Right = crawlNode.Left;
+                    if (node.Left.Right == null) {
+                        node.Left.Right = node.Right;
+                        if (isLeft) parent.Left = node.Left;
+                        else parent.Right = node.Left;
                     }
                     else {
-                        TreeNode<E> tempSearch = crawlNode.Left;
+                        TreeNode<E> tempSearch = node.Left;
                         TreeNode<E> tempSearchParent = null;
 
                         while (tempSearch.Right != null) {
@@ -133,25 +111,23 @@ namespace SharpStructures {
 
                 return deleteReturn;
             }
-
-            throw new TreeException("AVLTree.Delete(TreeNode, E): undefined case");
         }
 
         public E Find(E element) {
             return Find(_root, element);
         }
         
-        private E Find(TreeNode<E> crawlNode, E element) {
-            if (crawlNode == null)
+        private E Find(TreeNode<E> node, E element) {
+            if (node == null)
                 return default(E);
-            else if (element.CompareTo(crawlNode.data) == 0)
-                return crawlNode.data;
-            else if (element.CompareTo(crawlNode.data) < 0)
-                return Find(crawlNode.Left, element);
-            else if (element.CompareTo(crawlNode.data) > 0)
-                return Find(crawlNode.Right, element);
+            else if (element.CompareTo(node.data) == 0)
+                return node.data;
+            else if (element.CompareTo(node.data) < 0)
+                return Find(node.Left, element);
+            else if (element.CompareTo(node.data) > 0)
+                return Find(node.Right, element);
 
-            throw new NotImplementedException("AVLTree.Find(TreeNode, E): undefined case");
+            throw new TreeException("AVLTree.Find(TreeNode, E): undefined case");
         }
 
         public bool Remove(E element) {
@@ -166,29 +142,25 @@ namespace SharpStructures {
             _root = null;
         }
 
-        private void RebalanceRight() {
+        private int GetBalanceFactor(TreeNode<E> node) {
+            if (node == null)
+                return 0;
 
+            if (node.Left != null && node.Right != null)
+                return Height(node.Left) - Height(node.Right);
+            else
+                return 0;
         }
 
-        private void RebalanceLeft() {
+        public int Height() => Height(_root) + 1;
 
-        }
-
-        private void Rebalance() {
-            if (GetBalance() < -1)
-                RebalanceRight();
-            else if (GetBalance() > 1)
-                RebalanceLeft();
-        }
-
-        private int GetBalance() {
-            return _leftHeight - _rightHeight;
-        }
-
-        public int Height() => Height(_root);
-
-        private int Height(TreeNode<E> crawlNode) {
-            throw new NotImplementedException();
+        private int Height(TreeNode<E> node) {
+            if (node == null)
+                return 0;
+            else if (node.Left != null || node.Right != null)
+                return 1 + Height(node.Left) + Height(node.Right);
+            else
+                return 0;
         }
     }
 }
