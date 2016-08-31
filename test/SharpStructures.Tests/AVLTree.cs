@@ -17,6 +17,14 @@ namespace Tests
             tree.Add(8);
             tree.Add(6);
             tree.Add(9);
+            tree.Add(23);
+            tree.Add(20);
+            tree.Add(12);
+            tree.Add(15);
+            tree.Add(13);
+            tree.Add(14);
+            tree.Add(19);
+            tree.Add(18);
         }
 
         void IDisposable.Dispose() => tree.Clear();
@@ -44,12 +52,12 @@ namespace Tests
             Assert.Equal(7, tree.Delete(7));
             Assert.Equal(2, tree.Delete(2));
             Console.WriteLine("After removing 7 and 2: ");
-            tree.Print();
+            Assert.Equal(false, tree.Contains(7));
+            Assert.Equal(false, tree.Contains(2));
         }
 
         [Fact]
         public void ShouldCountHeightCorrectly() {
-            Assert.Equal(5, tree.Height());
         }
     }
 }
