@@ -34,7 +34,7 @@ namespace SharpStructures.Helpers {
                         indent += (childListStack[i].Count > 0) ? "|  " : "   ";
                     }
 
-                    Console.WriteLine(indent + "+- " + tree.data.ToString());
+                    Console.WriteLine(indent + "+- (D:" + tree.data.ToString() + " B:" + tree.Balance.ToString() + ")");
 
                     if (tree.Children.Count > 0) {
                         childListStack.Add(new List<TreeNode<E>>(tree.Children));
