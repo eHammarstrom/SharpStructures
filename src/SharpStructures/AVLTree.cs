@@ -28,17 +28,13 @@ namespace SharpStructures {
 
         public bool Contains(E element) => Contains(_root, element);
 
-        public E Delete(E element) {
+        public E Remove(E element) {
             throw new NotImplementedException();
         }
 
         public E Get(E element) => Get(_root, element);
 
         public int Height() => Height(_root);
-
-        public bool Remove(E element) {
-            throw new NotImplementedException();
-        }
 
         public void Print() => Tree<E>.Print(_root);
 

@@ -1,5 +1,5 @@
-||Add|Contains|Remove/Delete|Find/Get|Clear|
+||Add|Contains|Remove|Get|Clear|
 |---|---|---|---|---|---|
 |LinkedList|x|x|x|x|x|
-|AVLTree|x|   |   |   |x|
+|AVLTree|x|x|   |x|x|
 |Cuckoo hash list|   |   |   |   |   |

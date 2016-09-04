@@ -10,8 +10,7 @@ namespace SharpStructures.Interfaces
         bool Add(E element);
         bool Contains(E element);
         E Get(E element);
-        E Delete(E element);
-        bool Remove(E element);
+        E Remove(E element);
         int Height();
         void Clear();
     }
