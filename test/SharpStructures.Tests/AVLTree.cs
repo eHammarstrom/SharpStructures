@@ -84,13 +84,13 @@ namespace Tests
             Assert.Equal(false, largeTree.Contains(-1));
         }
 
-        /*
         [Fact]
-        public void ShouldFindElements() {
-            Assert.Equal(6, tree.Find(6));
-            Assert.Equal(0, tree.Find(999));
+        public void ShouldGetElements() {
+            Assert.Equal(21, largeTree.Get(21));
+            Assert.Equal(0, largeTree.Get(999));
         }
 
+        /*
         [Fact]
         public void ShouldDeleteElements() {
             Assert.Equal(7, tree.Delete(7));

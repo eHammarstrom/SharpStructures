@@ -32,9 +32,7 @@ namespace SharpStructures {
             throw new NotImplementedException();
         }
 
-        public E Find(E element) {
-            throw new NotImplementedException();
-        }
+        public E Get(E element) => Get(_root, element);
 
         public int Height() => Height(_root);
 
@@ -47,6 +45,17 @@ namespace SharpStructures {
         #endregion
 
         #region Private
+
+        private E Get(TreeNode<E> node, E element) {
+            if (element.CompareTo(node.data) == 0)
+                return node.data;
+            else if (node.Left != null && element.CompareTo(node.data) < 0)
+                return Get(node.Left, element);
+            else if (node.Right != null && element.CompareTo(node.data) > 0)
+                return Get(node.Right, element);
+            else
+                return default(E);
+        }
 
         private bool Contains(TreeNode<E> node, E element) {
             if (element.CompareTo(node.data) == 0)
