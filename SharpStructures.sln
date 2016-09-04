@@ -8,6 +8,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{5B629F96-8B91-49F5-8BA7-48E2B64C4838}"
 	ProjectSection(SolutionItems) = preProject
 		global.json = global.json
+		README.md = README.md
 	EndProjectSection
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "SharpStructures", "src\SharpStructures\SharpStructures.xproj", "{EA228C7E-AB38-4946-965E-9DDC1F8D9187}"

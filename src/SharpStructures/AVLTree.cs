@@ -84,14 +84,14 @@ namespace SharpStructures {
         }
 
         private TreeNode<E> RebalanceRight(TreeNode<E> node) {
-            if (node.Right.Balance < TreeNode<E>.LEFT_HEAVY) {
-                if (node.Right.Right != null && node.Right.Right.Balance > TreeNode<E>.RIGHT_HEAVY) {
+            if (node.Right.Balance <= TreeNode<E>.LEFT_HEAVY) {
+                if (node.Right.Right != null && node.Right.Right.Balance >= TreeNode<E>.RIGHT_HEAVY) {
                     Console.WriteLine("Right-Left-Right Heavy");
                     node.Right.Balance = TreeNode<E>.BALANCED;
                     node.Right.Right.Balance = TreeNode<E>.BALANCED;
                     node.Balance = TreeNode<E>.RIGHT_HEAVY;
                 }
-                else if (node.Right.Right != null && node.Right.Right.Balance < TreeNode<E>.LEFT_HEAVY) {
+                else if (node.Right.Right != null && node.Right.Right.Balance <= TreeNode<E>.LEFT_HEAVY) {
                     Console.WriteLine("Right-Left-Left Heavy");
                     node.Right.Balance = TreeNode<E>.RIGHT_HEAVY;
                     node.Right.Right.Balance = TreeNode<E>.BALANCED;

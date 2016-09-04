@@ -50,8 +50,9 @@ namespace Tests
             largeTree.Print();
         }
 
+
         [Fact]
-        public void ShouldLeftRightBalanceWith15() {
+        public void ShouldLeftRightBalanceWith15() { // Confirm in terminal
             Console.WriteLine("Before inserting 15.");
             PrintTrees();
             Console.WriteLine("Inserting 15. After L-R balancing: ");
@@ -61,29 +62,31 @@ namespace Tests
             PrintTrees();
         }
 
-        /*
         [Fact]
-        public void ShouldLeftRightBalanceWith8() {
+        public void ShouldLeftRightBalanceWith8() { // Confirm in terminal
             Console.WriteLine("Before inserting 8.");
             PrintTrees();
             Console.WriteLine("Inserting 8. After L-R balancing: ");
             smallTree.Add(8);
-            //mediumTree.Add(8);
-            //largeTree.Add(8);
+            mediumTree.Add(8);
+            largeTree.Add(8);
             PrintTrees();
         }
-        */
 
         /*
         [Fact]
         public void ShouldContainElements() {
-            Assert.Equal(true, tree.Contains(8));
-            Assert.Equal(true, tree.Contains(7));
-            Assert.Equal(true, tree.Contains(1));
-            Assert.Equal(false, tree.Contains(999));
-            Assert.Equal(false, tree.Contains(-1));
+            Assert.Equal(true, largeTree.Contains(3));
+            Assert.Equal(true, largeTree.Contains(2));
+            Assert.Equal(true, largeTree.Contains(26));
+            Assert.Equal(true, largeTree.Contains(20));
+            Assert.Equal(true, largeTree.Contains(21));
+            Assert.Equal(false, largeTree.Contains(999));
+            Assert.Equal(false, largeTree.Contains(-1));
         }
+        */
 
+        /*
         [Fact]
         public void ShouldFindElements() {
             Assert.Equal(6, tree.Find(6));
