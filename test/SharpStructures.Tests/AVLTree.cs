@@ -73,7 +73,6 @@ namespace Tests
             PrintTrees();
         }
 
-        /*
         [Fact]
         public void ShouldContainElements() {
             Assert.Equal(true, largeTree.Contains(3));
@@ -84,7 +83,6 @@ namespace Tests
             Assert.Equal(false, largeTree.Contains(999));
             Assert.Equal(false, largeTree.Contains(-1));
         }
-        */
 
         /*
         [Fact]
@@ -101,10 +99,13 @@ namespace Tests
             Assert.Equal(false, tree.Contains(7));
             Assert.Equal(false, tree.Contains(2));
         }
+        */
 
         [Fact]
-        public void ShouldCountHeightCorrectly() {
+        public void ShouldCountHeight() {
+            Assert.Equal(2, smallTree.Height());
+            Assert.Equal(3, mediumTree.Height());
+            Assert.Equal(4, largeTree.Height());
         }
-        */
     }
 }

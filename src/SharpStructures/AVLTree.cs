@@ -26,9 +26,7 @@ namespace SharpStructures {
 
         public void Clear() => _root = null;
 
-        public bool Contains(E element) {
-            throw new NotImplementedException();
-        }
+        public bool Contains(E element) => Contains(_root, element);
 
         public E Delete(E element) {
             throw new NotImplementedException();
@@ -38,7 +36,7 @@ namespace SharpStructures {
             throw new NotImplementedException();
         }
 
-        public int Height() => Height(_root) + 1;
+        public int Height() => Height(_root);
 
         public bool Remove(E element) {
             throw new NotImplementedException();
@@ -49,6 +47,62 @@ namespace SharpStructures {
         #endregion
 
         #region Private
+
+        private bool Contains(TreeNode<E> node, E element) {
+            if (element.CompareTo(node.data) == 0)
+                return true;
+            else if (node.Left != null && element.CompareTo(node.data) < 0)
+                return Contains(node.Left, element);
+            else if (node.Right != null && element.CompareTo(node.data) > 0)
+                return Contains(node.Right, element);
+            else
+                return false;
+        }
+
+        private int Height(TreeNode<E> node) {
+            if (node == null)
+                return 0;
+            else
+                return 1 + Math.Max(Height(node.Left), Height(node.Right));
+        }
+
+        private TreeNode<E> Add(TreeNode<E> node, E element) {
+            if (node == null) {
+                _isBalanceOff = true;
+                _wasAdded = true;
+                return new TreeNode<E>(element);
+            }
+            else if (element.CompareTo(node.data) == 0) {
+                _wasAdded = false;
+                return node;
+            }
+            else if (element.CompareTo(node.data) < 0) {
+                node.Left = Add(node.Left, element);
+
+                if (_isBalanceOff) {
+                    node.Balance--;
+
+                    if (node.Balance == TreeNode<E>.BALANCED) _isBalanceOff = false;
+                    if (node.Balance < TreeNode<E>.LEFT_HEAVY) node = RebalanceLeft(node);
+                }
+
+                return node;
+            }
+            else if (element.CompareTo(node.data) > 0) {
+                node.Right = Add(node.Right, element);
+
+                if (_isBalanceOff) {
+                    node.Balance++;
+
+                    if (node.Balance == TreeNode<E>.BALANCED) _isBalanceOff = false;
+                    if (node.Balance > TreeNode<E>.RIGHT_HEAVY) node = RebalanceRight(node);
+                }
+
+                return node;
+            }
+
+            throw new TreeException("AVLTree.Add(TreeNode, E): undefined case");
+        }
 
         private TreeNode<E> RebalanceLeft(TreeNode<E> node) {
             if (node.Left.Balance >= TreeNode<E>.RIGHT_HEAVY) {
@@ -114,57 +168,6 @@ namespace SharpStructures {
             node = RotateLeft(node);
 
             return node;
-        }
-
-        private TreeNode<E> Add(TreeNode<E> node, E element) {
-            if (node == null) {
-                _isBalanceOff = true;
-                _wasAdded = true;
-                return new TreeNode<E>(element);
-            }
-            else if (element.CompareTo(node.data) == 0) {
-                _wasAdded = false;
-                return node;
-            }
-            else if (element.CompareTo(node.data) < 0) {
-                node.Left = Add(node.Left, element);
-
-                if (_isBalanceOff) {
-                    node.Balance--;
-
-                    if (node.Balance == TreeNode<E>.BALANCED) _isBalanceOff = false;
-                    if (node.Balance < TreeNode<E>.LEFT_HEAVY) node = RebalanceLeft(node);
-                }
-
-                return node;
-            }
-            else if (element.CompareTo(node.data) > 0) {
-                node.Right = Add(node.Right, element);
-
-                if (_isBalanceOff) {
-                    node.Balance++;
-
-                    if (node.Balance == TreeNode<E>.BALANCED) _isBalanceOff = false;
-                    if (node.Balance > TreeNode<E>.RIGHT_HEAVY) node = RebalanceRight(node);
-                }
-
-                return node;
-            }
-
-            throw new TreeException("AVLTree.Add(TreeNode, E): undefined case");
-        }
-
-        private int Height(TreeNode<E> node) {
-            if (node == null)
-                return 0;
-            else if (node.Left != null && node.Right != null)
-                return 1 + Height(node.Left) + Height(node.Right);
-            else if (node.Left != null)
-                return 1 + Height(node.Left);
-            else if (node.Right != null)
-                return 1 + Height(node.Right);
-            else
-                return 0;
         }
 
         private TreeNode<E> RotateRight(TreeNode<E> node) {
