@@ -9,6 +9,15 @@ namespace Tests
         AVLTree<int> mediumTree;
         AVLTree<int> largeTree;
 
+        // Small      Medium          Large
+        //  20+        20+           __20+__
+        //  /         /  \          /       \
+        // 4         4    26       4         26
+        //          / \           / \       /  \
+        //         3   9         3+  9    21    30
+        //                      /   / \
+        //                     2   7   11
+
         public AVLTree() {
             smallTree = new AVLTree<int>();
             mediumTree = new AVLTree<int>();
@@ -28,11 +37,11 @@ namespace Tests
             largeTree.Add(26);
             largeTree.Add(3);
             largeTree.Add(9);
+            largeTree.Add(21);
+            largeTree.Add(30);
             largeTree.Add(2);
             largeTree.Add(7);
             largeTree.Add(11);
-            largeTree.Add(21);
-            largeTree.Add(30);
         }
 
         void IDisposable.Dispose() {
@@ -50,7 +59,14 @@ namespace Tests
             largeTree.Print();
         }
 
+        /*
+        [Fact]
+        public void ShouldSetupBaseTrees() {
+            PrintTrees(); // Check terminal, compare with top comment
+        }
+        */
 
+        /*
         [Fact]
         public void ShouldLeftRightBalanceWith15() { // Confirm in terminal
             Console.WriteLine("Before inserting 15.");
@@ -89,23 +105,51 @@ namespace Tests
             Assert.Equal(21, largeTree.Get(21));
             Assert.Equal(0, largeTree.Get(999));
         }
-
-        /*
-        [Fact]
-        public void ShouldDeleteElements() {
-            Assert.Equal(7, tree.Delete(7));
-            Assert.Equal(2, tree.Delete(2));
-            Console.WriteLine("After removing 7 and 2: ");
-            Assert.Equal(false, tree.Contains(7));
-            Assert.Equal(false, tree.Contains(2));
-        }
         */
 
+        [Fact]
+        public void ShouldRemoveLeafNode() {
+            Console.WriteLine("Before leaf node removal: ");
+            smallTree.Print();
+            Assert.Equal(4, smallTree.Remove(4));
+            Console.WriteLine("After leaf node removal: ");
+            smallTree.Print();
+        }
+
+        [Fact]
+        public void ShouldRemoveRootOfBalancedAVLSubtree4() {
+            Console.WriteLine("Before root removal of subtree 4: ");
+            largeTree.Print();
+            Assert.Equal(4, largeTree.Remove(4));
+            Console.WriteLine("After root removal of subtree 4: ");
+            largeTree.Print();
+        }
+
+        [Fact]
+        public void ShouldRemoveRootOfBalancedAVLSubtree26() {
+            Console.WriteLine("Before root removal of subtree 26: ");
+            largeTree.Print();
+            Assert.Equal(26, largeTree.Remove(26));
+            Console.WriteLine("After root removal of subtree 26: ");
+            largeTree.Print();
+        }
+
+        [Fact]
+        public void ShouldRemoveRootOfBalancedAVLSubtree20() {
+            Console.WriteLine("Before root removal of subtree 20: ");
+            largeTree.Print();
+            Assert.Equal(20, largeTree.Remove(20));
+            Console.WriteLine("After root removal of subtree 20: ");
+            largeTree.Print();
+        }
+
+        /*
         [Fact]
         public void ShouldCountHeight() {
             Assert.Equal(2, smallTree.Height());
             Assert.Equal(3, mediumTree.Height());
             Assert.Equal(4, largeTree.Height());
         }
+        */
     }
 }

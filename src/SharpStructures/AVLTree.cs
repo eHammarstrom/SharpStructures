@@ -28,15 +28,18 @@ namespace SharpStructures {
 
         public bool Contains(E element) => Contains(_root, element);
 
-        public E Remove(E element) {
-            throw new NotImplementedException();
-        }
+        public E Remove(E element) => Remove(null, _root, element);
 
         public E Get(E element) => Get(_root, element);
 
         public int Height() => Height(_root);
 
-        public void Print() => Tree<E>.Print(_root);
+        public void Print() {
+            if (_root == null)
+                Console.WriteLine("AVLTree.Print(): tree was empty");
+            else
+                Tree<E>.Print(_root);
+        }
 
         #endregion
 
@@ -69,6 +72,62 @@ namespace SharpStructures {
                 return 0;
             else
                 return 1 + Math.Max(Height(node.Left), Height(node.Right));
+        }
+
+        /* TODO: Refactor removal code to a function that returns a new node (removed/modified) */
+        private E Remove(TreeNode<E> parent, TreeNode<E> node, E element) {
+            if (node == null)
+                return default(E);
+            else if (element.CompareTo(node.data) < 0)
+                return Remove(node, node.Left, element);
+            else if (element.CompareTo(node.data) > 0)
+                return Remove(node, node.Right, element);
+            else { // found it
+                E temp = node.data;
+
+                bool isLeft = (parent != null && node.data.CompareTo(parent.data) < 0) ? true : false;
+
+                if (node.Children.Count == 0) {
+                    Console.WriteLine("Remove-if: 0 children");
+                    if (isLeft) parent.Left = null;
+                    else parent.Right = null;
+                }
+                else if (node.Children.Count == 1) {
+                    Console.WriteLine("Remove-elseif: 1 child");
+                    if (isLeft) parent.Left = node.Children[0];
+                    else parent.Right = node.Children[0];
+                }
+                else {
+                    if (node.Left.Right == null) {
+                        Console.WriteLine("Remove-else: Left child has no right child");
+                        if (isLeft) {
+                            parent.Left = node.Left;
+                            parent.Left.Right = node.Right;
+                        }
+                        else {
+                            parent.Right = node.Left;
+                            parent.Right.Right = node.Right;
+                        }
+                    }
+                    else {
+                        Console.WriteLine("Remove-else: Left child, find rightmost child");
+                        TreeNode<E> leftRightMostParent = null;
+                        TreeNode<E> leftRightMost = node.Left.Right;
+
+                        while (leftRightMost.Right != null) {
+                            leftRightMostParent = leftRightMost;
+                            leftRightMost = leftRightMost.Right;
+                        }
+
+                        if (isLeft) parent.Left = leftRightMost;
+                        else parent.Right = leftRightMost;
+
+                        leftRightMostParent.Right = null;
+                    }
+                }
+
+                return temp;
+            }
         }
 
         private TreeNode<E> Add(TreeNode<E> node, E element) {
